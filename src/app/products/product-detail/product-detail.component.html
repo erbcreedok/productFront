@@ -1,3 +1,20 @@
-<p>
-  product-detail works!
-</p>
+<div class="container" *ngIf="product">
+    <h2 >{{product['product_name']}}</h2>
+    <h4>{{product['product_description']}}</h4>
+    <div class="row">
+        <div class="col-md-2">
+            Price: {{product['price']+"$"}}
+        </div>
+        <div class="col-md-3">
+            In Stock: {{product['stock_size']}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            Time Added: {{product['dtm_added'] | date}}
+        </div>
+        <div class="col-lg-3" *ngIf="product['dtm_discontinued']">
+            Time Discontinued: {{product['dtm_discontinued'] | date}}
+        </div>
+    </div>
+</div>
