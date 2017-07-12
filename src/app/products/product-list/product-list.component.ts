@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Response} from "@angular/http";
-import {ServerService} from "../../shared/server.service";
-import {Product} from "../product.model";
+import {ProductService} from '../../shared/product.service';
+
 
 
 @Component({
@@ -11,7 +10,7 @@ import {Product} from "../product.model";
 })
 export class ProductListComponent implements OnInit {
   products: any[];
-  constructor( private serverService: ServerService) { }
+  constructor( private serverService: ProductService) { }
 
   ngOnInit() {
       this.serverService.getProductsList().subscribe(

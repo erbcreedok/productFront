@@ -6,7 +6,7 @@ import {Product} from "../products/product.model";
 
 
 @Injectable()
-export class ServerService {
+export class ProductService {
 
   constructor(private http: Http) { }
 
@@ -22,5 +22,17 @@ export class ServerService {
           return Observable.throw('Something went wrong');
         }
     );
+  }
+  getProductById(id: number) {
+      return this.http.get('http://127.0.0.1:8000/products/' + id).map(
+          (response: Response) => {
+              const product = response.json()
+              return product;
+          }
+      ).catch (
+          (error: Response) => {
+              return Observable.throw('Something went wrond');
+          }
+      )
   }
 }

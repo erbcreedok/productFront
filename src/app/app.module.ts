@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { ProductListComponent } from './products/product-list/product-list.component';
 import { ProductDetailComponent } from './products/product-detail/product-detail.component';
 import {HttpModule} from '@angular/http';
-import {ServerService} from './shared/server.service';
+import {ProductService} from './shared/product.service';
 import { HeaderComponent } from './header/header.component';
 import { ProductsComponent } from './products/products.component';
 
@@ -21,7 +21,7 @@ import { ProductsComponent } from './products/products.component';
     BrowserModule,
     HttpModule,
   ],
-  providers: [ServerService],
+  providers: [ProductService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
