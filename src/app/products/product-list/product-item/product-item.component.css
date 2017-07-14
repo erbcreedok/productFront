@@ -1,0 +1,13 @@
+td {
+    padding: 14px 5px;
+}
+td:first-child{
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+    padding-left: 10px;
+}
+td:last-child{
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+    padding-right: 10px;
+}

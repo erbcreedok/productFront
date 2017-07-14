@@ -1,0 +1,60 @@
+table{
+    border-collapse: separate;
+    border-spacing: 0px 5px;
+    width: 100%;
+    color: #62767f;
+    margin:30px 0px;
+    -webkit-box-shadow: 0px 7px 40px -15px rgba(0,0,0,0.25);
+    -moz-box-shadow: 0px 7px 40px -15px rgba(0,0,0,0.25);
+    -o-box-shadow: 0px 7px 40px -15px rgba(0,0,0,0.25);
+    box-shadow: 0px 7px 40px -15px rgba(0,0,0,0.25);
+}
+thead{
+    color: #78909C;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+thead th {
+    padding: 14px 5px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+thead th:hover {
+    color: #3883a1;
+}
+thead th:first-child{
+    padding-left: 10px;
+}
+thead th.active {
+    color: #12A0F8;
+}
+thead th.active:after, thead th.active::after {
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 2px;
+    vertical-align: middle;
+    border-top: 4px dashed;
+    border-top: 4px solid\9;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent
+}
+thead th.active.reverse:after, thead th.active.reverse::after {
+    margin-top: -4px;
+    border-top: none;
+    border-bottom: 4px dashed;
+    border-bottom: 4px solid\9;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent
+}
+app-product-item {
+    display: table-row;
+    background-color: transparent;
+}
+app-product-item:nth-child(2n) {
+    background-color: #f4f4f4;
+}
+app-product-item:hover {
+    background-color: #E8F4F9;
+}
