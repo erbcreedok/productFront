@@ -1,0 +1,34 @@
+<td>
+  <input type="checkbox" class="table-checkbox">
+</td>
+<td *ngFor="let column of columns">
+  {{ column.type !== 'Date' || !product[column.name] ? product[column.name] : (product[column.name] | amTimeAgo) }}
+</td>
+<!--<td>{{ index }} {{ product.productCode }}</td>-->
+<!--<td>{{ product.productName }}</td>-->
+<!--<td>{{ product.productDescription }}</td>-->
+<!--<td>-->
+  <!--{{ product.stock }}-->
+<!--</td>-->
+<!--<td>-->
+  <!--${{ product.cost }}-->
+<!--</td>-->
+<!--<td title="{{ product.dateAdded | date:'d MMM y, HH:mm:ss' }}">-->
+  <!--{{ product.discontinued ? ( product.discontinued | amTimeAgo ) : '' }}-->
+<!--</td>-->
+<!--<td title="{{ product.dateAdded | date:'d MMM y, HH:mm:ss' }}">-->
+  <!--{{ product.dateAdded ? ( product.dateAdded| amTimeAgo ) : '' }}-->
+<!--</td>-->
+<td>
+  <span style="cursor: pointer" class="dropdown" appDropdown="">
+    <i class="glyphicon glyphicon-option-horizontal"></i>
+    <ul class="dropdown-menu" style="right: -100%; left: auto;">
+      <li>
+        <a><i class="text-icon glyphicon glyphicon-edit"></i> Edit</a>
+      </li>
+      <li>
+        <a><i class="text-icon glyphicon glyphicon-remove"></i> Remove</a>
+      </li>
+    </ul>
+  </span>
+</td>
