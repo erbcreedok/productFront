@@ -16,11 +16,14 @@ export class ProductListComponent implements OnInit {
   orderBy = '';
   orderInverse = false;
 
+  isFilterOpen = true;
+
+
   constructor( private productService: ProductService) { }
 
   ngOnInit() {
       this.products = this.productService.getProducts();
-      this.productColumns = Product.columns;
+      this.productColumns = this.productService.getProductColumns();
       this.orderBy = this.productColumns[0].name;
   }
 
