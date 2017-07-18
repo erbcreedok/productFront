@@ -2,7 +2,10 @@
   <input type="checkbox" class="table-checkbox">
 </td>
 <td *ngFor="let column of columns">
-  {{ column.type !== 'Date' || !product[column.name] ? product[column.name] : (product[column.name] | amTimeAgo) }}
+  <span *ngIf="product[column.name]"
+        title="{{ product[column.name].constructor.name == 'Date' ? ( product[column.name] | amDateFormat:'MMMM Do YYYY, h:mm:ss a' ) : product[column.name] }}">
+    {{ product[column.name].constructor.name !== 'Date' ? product[column.name] : (product[column.name] | amTimeAgo) }}
+  </span>
 </td>
 <!--<td>{{ index }} {{ product.productCode }}</td>-->
 <!--<td>{{ product.productName }}</td>-->

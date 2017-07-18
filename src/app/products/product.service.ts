@@ -26,7 +26,7 @@ export class ProductService implements OnInit {
             15,
             69.45,
             null,
-            new Date()
+            new Date(new Date().getTime() - 9000000)
         ),
         new Product(
             3,
@@ -37,6 +37,36 @@ export class ProductService implements OnInit {
             1599.99,
             new Date(Date.now()),
             new Date()
+        ),
+        new Product(
+            4,
+            'P0004',
+            'DVD Reader',
+            'Nice DVD Player',
+            0,
+            29.50,
+            new Date(new Date().getTime() - 1000000),
+            new Date(new Date().getTime() - 20000)
+        ),
+        new Product(
+            5,
+            'P0005',
+            'SONY PlayStation 4',
+            'PlayStation 4, 2015. Made in Japan',
+            15,
+            69.45,
+            null,
+            new Date()
+        ),
+        new Product(
+            6,
+            'P0006',
+            'MacBook Air',
+            'Nice and tiny notebook from Apple',
+            42,
+            1599.99,
+            new Date(new Date().getTime() - 150000),
+            new Date(new Date().getTime() - 3000000)
         )
     ];
 
@@ -46,8 +76,16 @@ export class ProductService implements OnInit {
 
     ngOnInit() {}
 
+    getProductColumns() {
+        return Product.columns;
+    }
+
     getProducts() {
         return this.products.slice();
+    }
+
+    getProductsByFilters(filters: any) {
+        return this.dataStorageService.getProductsByFilters(filters);
     }
 
     addProduct(product: Product) {

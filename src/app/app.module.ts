@@ -15,7 +15,12 @@ import { ProductItemComponent } from './products/product-list/product-item/produ
 import { DropdownDirective } from './shared/dropdown.directive';
 import { MomentModule } from 'angular2-moment';
 import {OrderModule} from 'ngx-order-pipe';
-import {FilterPipeModule} from 'ngx-filter-pipe';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FilterByTextPipe } from './shared/filter-by-text.pipe';
+import { FilterByRangePipe } from './shared/filter-by-range.pipe';
+import { FilterByContainPipe } from './shared/filter-by-contain.pipe';
+import { ProductFiltersComponent } from './products/product-filters/product-filters.component';
+import { MyDatePickerModule } from 'mydatepicker';
 
 @NgModule({
   declarations: [
@@ -26,14 +31,20 @@ import {FilterPipeModule} from 'ngx-filter-pipe';
     ProductsComponent,
     NotFoundComponent,
     ProductItemComponent,
-    DropdownDirective
+    DropdownDirective,
+    FilterByTextPipe,
+    FilterByRangePipe,
+    FilterByContainPipe,
+    ProductFiltersComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
     MomentModule,
     OrderModule,
-    FilterPipeModule,
+    MyDatePickerModule,
     HttpModule,
   ],
   providers: [ProductService, DataStorageService],

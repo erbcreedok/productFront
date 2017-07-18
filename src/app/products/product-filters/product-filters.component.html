@@ -1,0 +1,86 @@
+<div class="row box">
+  <div class="col-xs-11">
+    <h5 style="text-align: center" class="row">
+      <span class="glyphicon glyphicon-remove"
+            style="color:#888; cursor: pointer"
+            (click)="onClose()"></span>
+    </h5>
+    <div class="row">
+      <p>
+        <b>Filters</b>
+        <a class="pull-right">clear</a>
+      </p>
+    </div>
+    <form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
+      <div class="form-group row">
+        <div class="col-xs-12">
+          <label for="productCodeFilter">Code</label>
+          <input id="productCodeFilter"
+                 formControlName="productCode"
+                 type="text"
+                 class="form-control">
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-xs-12">
+          <label for="productNameFilter">Name</label>
+          <input id="productNameFilter"
+                 formControlName="productName"
+                 type="text"
+                 class="form-control">
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-xs-12">
+          <label for="productDescriptionFilter">Description</label>
+          <input id="productDescriptionFilter"
+                 formControlName="productDescription"
+                 type="text"
+                 class="form-control">
+        </div>
+      </div>
+      <div class="form-group row" formGroupName="cost">
+        <label class="col-xs-12">Cost</label>
+        <div class="col-xs-6">
+          <input id="productCostMinFilter"
+                 formControlName="from" type="number" min="0" class="form-control">
+        </div>
+        <div class="col-xs-6">
+          <input id="productCostMaxFilter"
+                 formControlName="to" type="number" min="0" class="form-control">
+        </div>
+      </div>
+      <div class="form-group row" formGroupName="stock">
+        <label class="col-xs-12">Stock count</label>
+        <div class="col-xs-6">
+          <input id="productStockMinFilter"
+                 formControlName="from" type="number" min="0" class="form-control">
+        </div>
+        <div class="col-xs-6">
+          <input id="productStockMaxFilter"
+                 formControlName="to" type="number" min="0" class="form-control">
+        </div>
+      </div>
+      <div class="form-group row" formGroupName="discontinued">
+        <div class="col-xs-12">
+          <input type="checkbox" formControlName="isOn" id="filterByDiscontinuedFilter">
+          <label for="productIsDiscontinuedFilter" >Filter by Discontinued</label>
+          <br>
+          <div *ngIf="filterForm.value['discontinued']['isOn']">
+            <input type="checkbox" formControlName="isDiscontinued" id="productIsDiscontinuedFilter">
+            <label for="productIsDiscontinuedFilter" style="font-weight: normal">is Discontinued</label>
+            <div *ngIf="filterForm.value['discontinued']['isDiscontinued']">
+              <label>From</label>
+              <my-date-picker [options]="{dateFormat: 'dd.mm.yyyy', alignSelectorRight: true}"
+                              formControlName="from"></my-date-picker>
+              <label>To</label>
+              <my-date-picker [options]="{dateFormat: 'dd.mm.yyyy', alignSelectorRight: true}"
+                              formControlName="to"></my-date-picker>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-success col-xs-6 col-xs-offset-3">Apply</button>
+    </form>
+  </div>
+</div>

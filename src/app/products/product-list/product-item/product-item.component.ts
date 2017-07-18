@@ -11,11 +11,7 @@ export class ProductItemComponent implements OnInit {
 
   @Input() product: Product;
   @Input() index: number;
-  columns = Product.columns;
-
-  typeOf(object: any): string {
-    return (typeof object);
-  }
+  @Input() columns: {name: string, title: string, type: string};
 
   constructor() {
   }

@@ -34,4 +34,12 @@ export class DataStorageService {
         )
     }
 
+    getProductsByFilters(filters: any) {
+        this.http.post('http://127.0.0.1:8000/', filters).subscribe(
+            (response: Response) => {
+                console.log(response);
+            }
+        );
+    }
+
 }
