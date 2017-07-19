@@ -1,9 +1,8 @@
 import {Injectable, OnInit} from '@angular/core';
 import 'rxjs/Rx';
 import {Product} from './product.model';
-import {DataStorageService} from '../shared/dataStorage.service';
+import {DataStorageService} from '../shared/data-storage.service';
 import {Subject} from 'rxjs/Subject';
-
 
 @Injectable()
 export class ProductService implements OnInit {
@@ -80,22 +79,38 @@ export class ProductService implements OnInit {
         return Product.columns;
     }
 
-    getProducts() {
+    getProducts(): Product[] {
         return this.products.slice();
     }
 
+    getProduct(id: number): Product {
+        return this.products.find( (product: Product) => product.id === id);
+    }
+
     getProductsByFilters(filters: any) {
-        return this.dataStorageService.getProductsByFilters(filters);
+        this.dataStorageService.getProductsByFilters(filters).subscribe(
+            (products: Product[]) => {
+                this.products = products;
+                this.productsEdited.next(this.products.slice());
+            }
+        );
     }
 
     addProduct(product: Product) {
-        this.products.push(product);
+        this.dataStorageService.addProducts(product).subscribe(
+            (newProduct: Product) => {
+                console.log(newProduct);
+            }
+        );
         this.productsEdited.next(this.products.slice());
     }
 
     updateProduct(id: number, product: Product) {
-        const index = this.products.findIndex(i => i.id === id);
-        this.products[index] = product;
+        this.dataStorageService.updateProduct(id, product).subscribe(
+            (newProduct: Product) => {
+                console.log(newProduct);
+            }
+        );
         this.productsEdited.next(this.products.slice());
     }
 }

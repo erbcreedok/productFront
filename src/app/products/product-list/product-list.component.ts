@@ -25,6 +25,11 @@ export class ProductListComponent implements OnInit {
       this.products = this.productService.getProducts();
       this.productColumns = this.productService.getProductColumns();
       this.orderBy = this.productColumns[0].name;
+      this.productService.productsEdited.subscribe(
+          (products: Product[]) => {
+            this.products = products;
+          }
+      );
   }
 
   isOrderedBy(columnName: string) {

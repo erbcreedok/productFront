@@ -22,6 +22,7 @@ table{
 }
 app-product-filters {
     position: absolute;
+    padding-right: 30px;
 }
 thead{
     color: #78909C;
