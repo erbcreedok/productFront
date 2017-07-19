@@ -8,7 +8,7 @@ import { HttpModule } from '@angular/http';
 import { ProductService } from './products/product.service';
 import { HeaderComponent } from './header/header.component';
 import { ProductsComponent } from './products/products.component';
-import { DataStorageService } from './shared/dataStorage.service';
+import { DataStorageService } from './shared/data-storage.service';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AppRoutingModule} from './app-routing.module';
 import { ProductItemComponent } from './products/product-list/product-item/product-item.component';
@@ -21,6 +21,7 @@ import { FilterByRangePipe } from './shared/filter-by-range.pipe';
 import { FilterByContainPipe } from './shared/filter-by-contain.pipe';
 import { ProductFiltersComponent } from './products/product-filters/product-filters.component';
 import { MyDatePickerModule } from 'mydatepicker';
+import { ProductEditComponent } from './products/product-edit/product-edit.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { MyDatePickerModule } from 'mydatepicker';
     FilterByRangePipe,
     FilterByContainPipe,
     ProductFiltersComponent,
+    ProductEditComponent,
   ],
   imports: [
     BrowserModule,
