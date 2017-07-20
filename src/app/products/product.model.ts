@@ -1,12 +1,18 @@
+interface ProductColumn {
+    name: string,
+    title: string,
+    type: string,
+    property: string
+}
 export class Product {
-    private static _columns: {name: string, title: string, type: string}[] = [
-        {name: 'productCode', title: 'Code', type: 'string'},
-        {name: 'productName', title: 'Name', type: 'string'},
-        {name: 'productDescription', title: 'Description', type: 'string'},
-        {name: 'cost', title: 'Cost',  type: 'number'},
-        {name: 'stock', title: 'Stock', type: 'number'},
-        {name: 'discontinued', title: 'Discontinued',  type: 'Date'},
-        {name: 'dateAdded', title: 'Added',  type: 'Date'},
+    private static _columns: ProductColumn[] = [
+        {name: 'productCode', title: 'Code', type: 'string', property: 'productCode'},
+        {name: 'productName', title: 'Name', type: 'string', property: 'productName'},
+        {name: 'productDescription', title: 'Description', type: 'string', property: 'productDescription'},
+        {name: 'cost', title: 'Cost',  type: 'number', property: 'price'},
+        {name: 'stock', title: 'Stock', type: 'number', property: 'stockSize'},
+        {name: 'discontinued', title: 'Discontinued',  type: 'Date', property: 'dtmDiscontinued'},
+        {name: 'dateAdded', title: 'Added',  type: 'Date', property: 'dtmAdded'},
     ];
 
     constructor(private _id: number,
@@ -20,7 +26,7 @@ export class Product {
                 private _timestamp: Date = null) {
     }
 
-    static get columns(): {name: string, title: string, type: string}[] {
+    static get columns(): ProductColumn[] {
         return this._columns.slice();
     }
 
