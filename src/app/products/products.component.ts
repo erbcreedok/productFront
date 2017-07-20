@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ErrorHandleService} from '../shared/error-handle.service';
 
 @Component({
   selector: 'app-products',
@@ -6,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
-  constructor() { }
+  errors: {header: string, body: string};
+
+  constructor(private  errorHandleService: ErrorHandleService) { }
 
   ngOnInit() {
   }

@@ -2,42 +2,55 @@ import {Injectable} from '@angular/core';
 import {Http, Response } from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Product} from '../products/product.model';
+import {ErrorHandleService} from './error-handle.service';
+import {ErrorMessage} from './error-message.model';
 
 @Injectable()
 export class DataStorageService {
 
-    constructor(private http: Http) { }
+    backEndUrl = 'http://127.0.0.1:8000/';
+
+    constructor(private http: Http, private errorHandleService: ErrorHandleService) { }
 
     getProducts() {
-        return this.http.get('http://127.0.0.1:8000/products').map(
+        const url = this.backEndUrl + 'products';
+        return this.http.get(url).map(
             (response: Response): Product[] => {
                 const products: Product[] = response.json();
-                console.log(products);
                 for (const product of products) {
-                    product.dateAdded = new Date(product.dateAdded);
-                    product.discontinued = product.discontinued ? new Date(product.discontinued) : null;
+                    this.prepareProduct(product);
                 }
                 return products;
             }
         ).catch(
-            () => {
-                return Observable.throw('Something went wrong');
+            (error: Response) => {
+                this.errorHandleService.addError(new ErrorMessage(
+                    'Connection Failed',
+                    'Oops... Looks like "' + url + '" is unreachable...',
+                    error
+                ));
+                return Observable.throw(error);
             }
         );
     }
 
     getProduct(id: number) {
-        return this.http.get('http://127.0.0.1:8000/products/' + id).map(
+        const url = this.backEndUrl + 'products/' + id;
+        return this.http.get(url).map(
             (response: Response): Product => {
                 const product = response.json();
                 if (product) {
-                    product.dateAdded = new Date(product.dateAdded);
-                    product.discontinued = product.discontinued ? new Date(product.discontinued) : null;
+                    this.prepareProduct(product);
                 }
                 return product;
             }
         ).catch (
             (error: Response) => {
+                this.errorHandleService.addError(new ErrorMessage(
+                    'Connection Failed',
+                    'Oops... Looks like "' + url + '" is unreachable...',
+                    error
+                ));
                 return Observable.throw(error);
             }
         )
@@ -59,16 +72,32 @@ export class DataStorageService {
         );
     }
 
-    getProductsByFilters(filters: any) {
-        return this.http.post('http://127.0.0.1:8000/products/filters/?', {filters: filters}).map(
+    getProductsByOptions(order: any, limit: any, filters: any) {
+        const url = this.backEndUrl + 'products/get/?';
+        return this.http.post(url, {order: order, limit: limit, filters: filters}).map(
             (response: Response): Product[] => {
-                return response.json();
+                const products: Product[] = response.json();
+                for (const product of products) {
+                    this.prepareProduct(product);
+                }
+                return products;
             }
-        ).catch (
-            () => {
-                return Observable.throw('Something went wrong');
+        ).catch(
+            (error: Response) => {
+                this.errorHandleService.addError(new ErrorMessage(
+                    'Connection Failed',
+                    'Oops... Looks like "' + url + '" is unreachable...',
+                    error
+                ));
+                return Observable.throw(error);
             }
         );
+    }
+
+    prepareProduct(product: Product): Product {
+        product.dateAdded = new Date(product.dateAdded);
+        product.discontinued = product.discontinued ? new Date(product.discontinued) : null;
+        return product;
     }
 
 }

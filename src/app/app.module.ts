@@ -23,6 +23,7 @@ import { ProductFiltersComponent } from './products/product-filters/product-filt
 import { MyDatePickerModule } from 'mydatepicker';
 import { ProductEditComponent } from './products/product-edit/product-edit.component';
 import { ErrorWindowComponent } from './error-window/error-window.component';
+import {ErrorHandleService} from "./shared/error-handle.service";
 
 @NgModule({
   declarations: [
@@ -51,7 +52,7 @@ import { ErrorWindowComponent } from './error-window/error-window.component';
     MyDatePickerModule,
     HttpModule,
   ],
-  providers: [ProductService, DataStorageService],
+  providers: [ProductService, DataStorageService, ErrorHandleService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

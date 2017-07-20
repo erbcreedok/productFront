@@ -1,4 +1,5 @@
-import {Component, EventEmitter, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ErrorMessage} from '../shared/error-message.model';
 
 @Component({
   selector: 'app-error-window',
@@ -6,13 +7,11 @@ import {Component, EventEmitter, Input, OnInit} from '@angular/core';
   styleUrls: ['./error-window.component.css']
 })
 export class ErrorWindowComponent implements OnInit {
-  @Input() message = {header: '', body: ''};
-  closeMe = new EventEmitter<void>();
+  @Input() message: ErrorMessage;
 
   constructor() { }
 
   ngOnInit() {
-    setTimeout(() => { this.closeMe.emit() }, 5000);
   }
 
 }
