@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProductService} from '../product.service';
+import {Product} from '../product.model';
 
 @Component({
   selector: 'app-product-edit',
@@ -12,6 +13,7 @@ export class ProductEditComponent implements OnInit {
   editMode = false;
   id: number;
   productForm: FormGroup;
+  isLoading = false;
 
 
 
@@ -38,13 +40,29 @@ export class ProductEditComponent implements OnInit {
     let isDiscontinued = false;
 
     if (this.editMode) {
-      const product = this.productService.getProduct(this.id);
-      productCode = product.productCode;
-      productName = product.productName;
-      productDescription = product.productDescription;
-      cost = product.cost + '';
-      stock = product.stock + '';
-      isDiscontinued = product.discontinued != null;
+      const product: Product = this.productService.getProduct(this.id);
+      if (product) {
+        productCode = product.productCode;
+        productName = product.productName;
+        productDescription = product.productDescription;
+        cost = product.cost + '';
+        stock = product.stock + '';
+        isDiscontinued = product.discontinued != null;
+      } else {
+        this.isLoading = true;
+        this.productService.loadProduct(this.id);
+        const subscription = this.productService.productLoaded.subscribe(
+            (data: Product) => {
+              this.isLoading = false;
+              subscription.unsubscribe();
+              if (data) {
+                this.editForm(data);
+              } else {
+                this.router.navigate(['../'], {relativeTo: this.route});
+              }
+            }
+        );
+      }
     }
     this.productForm = new FormGroup({
       'productCode': new FormControl(productCode, [Validators.pattern(/^\w*$/)]),
@@ -53,11 +71,21 @@ export class ProductEditComponent implements OnInit {
       'cost': new FormControl(cost, [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]),
       'stock': new FormControl(stock, [Validators.required, Validators.pattern(/^\d+$/)]),
       'isDiscontinued': new FormControl(isDiscontinued, Validators.required),
-    });
+    }, this.productValidator );
+  }
+
+  editForm(product: Product) {
+    this.productForm.setValue({
+      'productCode': product.productCode,
+      'productName': product.productName,
+      'productDescription': product.productDescription,
+      'cost': product.cost + '',
+      'stock': product.stock + '',
+      'isDiscontinued': product.discontinued != null,
+    })
   }
 
   onSubmit() {
-    console.log(this.productForm);
     if (!this.productForm.valid) {
       alert('Form is wrong!');
       return;
@@ -67,7 +95,22 @@ export class ProductEditComponent implements OnInit {
     } else {
       this.productService.addProduct(this.productForm.value);
     }
-    this.router.navigate(['../'], {relativeTo: this.route});
+    this.onCloseEdit();
+  }
+
+  onCloseEdit() {
+    if (this.editMode) {
+      this.router.navigate(['../../'], {relativeTo: this.route});
+    } else {
+      this.router.navigate(['../'], {relativeTo: this.route});
+    }
+  }
+
+  productValidator(group: FormGroup): {[s: string]: boolean} {
+    if (+group.get('cost').value < 5 && +group.get('stock').value < 10) {
+      return {'costStockValidation': true};
+    }
+    return null
   }
 
 

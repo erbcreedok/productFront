@@ -30,11 +30,23 @@ i.text-icon.glyphicon {
     color: #109FF8;
 }
 
-/*my-date-picker .selector {*/
-    /*right: 0;*/
-/*}*/
-/*my-date-picker .selector.selectorarrowleft:before {*/
-    /*right: 5px;*/
-    /*margin-left: auto;*/
-    /*margin-right: -2px;*/
-/*}*/
+.loader-spinner {
+    border: 10px solid #f3f3f3;
+    border-top: 10px solid #333;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    -webkit-animation:spin 800ms linear infinite;
+    -moz-animation: spin 800ms linear infinite;
+    -o-animation:spin 800ms linear infinite;
+    animation:spin 800ms linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.modal-md {
+    width: 420px;
+}

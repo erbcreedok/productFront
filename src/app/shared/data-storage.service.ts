@@ -11,7 +11,13 @@ export class DataStorageService {
     getProducts() {
         return this.http.get('http://127.0.0.1:8000/products').map(
             (response: Response): Product[] => {
-                return response.json();
+                const products: Product[] = response.json();
+                console.log(products);
+                for (const product of products) {
+                    product.dateAdded = new Date(product.dateAdded);
+                    product.discontinued = product.discontinued ? new Date(product.discontinued) : null;
+                }
+                return products;
             }
         ).catch(
             () => {
@@ -23,17 +29,22 @@ export class DataStorageService {
     getProduct(id: number) {
         return this.http.get('http://127.0.0.1:8000/products/' + id).map(
             (response: Response): Product => {
-                return response.json()
+                const product = response.json();
+                if (product) {
+                    product.dateAdded = new Date(product.dateAdded);
+                    product.discontinued = product.discontinued ? new Date(product.discontinued) : null;
+                }
+                return product;
             }
         ).catch (
-            () => {
-                return Observable.throw('Something went wrong');
+            (error: Response) => {
+                return Observable.throw(error);
             }
         )
     }
 
     addProducts(product: Product) {
-        return this.http.post('http://127.0.0.1:8000/products/?', product).map(
+        return this.http.post('http://127.0.0.1:8000/products/?', {'product': product}).map(
             (response: Response): Product => {
                 return response.json();
             }
@@ -49,7 +60,7 @@ export class DataStorageService {
     }
 
     getProductsByFilters(filters: any) {
-        return this.http.post('https://127.0.0.1:8000/products/filters/?', filters).map(
+        return this.http.post('http://127.0.0.1:8000/products/filters/?', {filters: filters}).map(
             (response: Response): Product[] => {
                 return response.json();
             }

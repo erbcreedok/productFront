@@ -14,14 +14,15 @@ import { AppRoutingModule} from './app-routing.module';
 import { ProductItemComponent } from './products/product-list/product-item/product-item.component';
 import { DropdownDirective } from './shared/dropdown.directive';
 import { MomentModule } from 'angular2-moment';
-import {OrderModule} from 'ngx-order-pipe';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { OrderModule } from 'ngx-order-pipe';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterByTextPipe } from './shared/filter-by-text.pipe';
 import { FilterByRangePipe } from './shared/filter-by-range.pipe';
 import { FilterByContainPipe } from './shared/filter-by-contain.pipe';
 import { ProductFiltersComponent } from './products/product-filters/product-filters.component';
 import { MyDatePickerModule } from 'mydatepicker';
 import { ProductEditComponent } from './products/product-edit/product-edit.component';
+import { ErrorWindowComponent } from './error-window/error-window.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { ProductEditComponent } from './products/product-edit/product-edit.compo
     FilterByContainPipe,
     ProductFiltersComponent,
     ProductEditComponent,
+    ErrorWindowComponent,
   ],
   imports: [
     BrowserModule,

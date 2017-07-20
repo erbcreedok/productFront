@@ -74,10 +74,10 @@
             <label for="productIsDiscontinuedFilter" style="font-weight: normal">is Discontinued</label>
             <div *ngIf="filterForm.get('discontinued.isDiscontinued').value">
               <label>From</label>
-              <my-date-picker [options]="{dateFormat: 'dd.mm.yyyy', alignSelectorRight: true}"
+              <my-date-picker [options]="{dateFormat: 'yyyy-mm-dd', alignSelectorRight: true}"
                               formControlName="from"></my-date-picker>
               <label>To</label>
-              <my-date-picker [options]="{dateFormat: 'dd.mm.yyyy', alignSelectorRight: true}"
+              <my-date-picker [options]="{dateFormat: 'yyyy-mm-dd', alignSelectorRight: true}"
                               formControlName="to"></my-date-picker>
             </div>
           </div>
