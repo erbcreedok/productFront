@@ -74,12 +74,12 @@ export class ProductService {
 
     order = {
         sort: 'id',
-        order: 'ASC'
+        order: true
     }
 
     limit = {
-        start: 0,
-        count: 20
+        offset: 0,
+        limit: 20
     }
 
     constructor(private dataStorageService: DataStorageService) {

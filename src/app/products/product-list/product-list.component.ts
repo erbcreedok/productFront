@@ -15,9 +15,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
   productColumns: {name: string, title: string}[];
   productSubscription: Subscription;
 
-  orderBy = '';
-  orderInverse = false;
-
   isFilterOpen = false;
 
 
@@ -26,7 +23,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   ngOnInit() {
       this.products = this.productService.getProducts();
       this.productColumns = this.productService.getProductColumns();
-      this.orderBy = this.productColumns[0].name;
+      this.productService.order.sort = this.productColumns[0].name;
       this.productSubscription = this.productService.productsEdited.subscribe(
           (products: Product[]) => {
             this.products = products;
@@ -38,16 +35,17 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   isOrderedBy(columnName: string) {
-    return this.orderBy === columnName ? 'active' + (this.orderInverse ? ' reverse' : '') : '';
+    return this.productService.order.sort === columnName ? 'active' + (this.productService.order.order ? ' ' : ' reverse') : '';
   }
 
   onSorted(columnName: string) {
-    if (this.orderBy === columnName) {
-      this.orderInverse = !this.orderInverse;
+    if (this.productService.order.sort === columnName) {
+      this.productService.order.order = !this.productService.order.order;
     } else {
-      this.orderBy = columnName;
-      this.orderInverse = false;
+      this.productService.order.sort = columnName;
+      this.productService.order.order = false;
     }
+    this.productService.getProductsByOptions();
   }
 
   loadProducts() {
