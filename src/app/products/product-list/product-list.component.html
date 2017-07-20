@@ -17,8 +17,8 @@
                         <input type="checkbox" class="table-checkbox">
                     </th>
                     <th *ngFor="let columnName of productColumns"
-                        (click)="onSorted(columnName.name)"
-                        [ngClass]="isOrderedBy(columnName.name)">{{ columnName.title }}</th>
+                        (click)="onSorted(columnName)"
+                        [ngClass]="isOrderedBy(columnName)">{{ columnName.title }}</th>
                     <th></th>
                     <th></th>
                     </thead>
