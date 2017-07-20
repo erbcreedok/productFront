@@ -72,6 +72,16 @@ export class ProductService {
     productsEdited = new Subject<Product[]> ();
     productLoaded = new Subject<Product>();
 
+    order = {
+        sort: 'id',
+        order: 'ASC'
+    }
+
+    limit = {
+        start: 0,
+        count: 20
+    }
+
     constructor(private dataStorageService: DataStorageService) {
         // this.loadProducts();
     }
@@ -105,12 +115,20 @@ export class ProductService {
         return this.products.find( (product: Product) => product.id === id);
     }
 
-    getProductsByFilters(filters: any) {
-        this.dataStorageService.getProductsByFilters(filters).subscribe(
+    getProductsByOptions() {
+        this.dataStorageService.getProductsByOptions(this.order, this.limit, {}).subscribe(
             (products: Product[]) => {
-                console.log(products);
-                // this.products = products;
-                // this.productsEdited.next(this.products.slice());
+                this.products = products;
+                this.productsEdited.next(this.products.slice());
+            }
+        );
+    }
+
+    getProductsByFilters(filters: any) {
+        this.dataStorageService.getProductsByOptions(this.order, this.limit, filters).subscribe(
+            (products: Product[]) => {
+                this.products = products;
+                this.productsEdited.next(this.products.slice());
             }
         );
     }
