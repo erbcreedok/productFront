@@ -5,7 +5,7 @@ import {DataStorageService} from '../shared/data-storage.service';
 import {Subject} from 'rxjs/Subject';
 
 @Injectable()
-export class ProductService implements OnInit {
+export class ProductService {
     private products: Product[] = [
         new Product(
             1,
@@ -70,10 +70,28 @@ export class ProductService implements OnInit {
     ];
 
     productsEdited = new Subject<Product[]> ();
+    productLoaded = new Subject<Product>();
 
-    constructor(private dataStorageService: DataStorageService) { }
+    constructor(private dataStorageService: DataStorageService) {
+        // this.loadProducts();
+    }
 
-    ngOnInit() {}
+    loadProducts() {
+        this.dataStorageService.getProducts().subscribe(
+            (products: Product[]) => {
+                this.products = products;
+                this.productsEdited.next(this.products.slice());
+            }
+        );
+    }
+
+    loadProduct(id: number) {
+        this.dataStorageService.getProduct(id).subscribe(
+            (product: Product) => {
+                this.productLoaded.next(product);
+            }
+        );
+    }
 
     getProductColumns() {
         return Product.columns;
@@ -90,8 +108,9 @@ export class ProductService implements OnInit {
     getProductsByFilters(filters: any) {
         this.dataStorageService.getProductsByFilters(filters).subscribe(
             (products: Product[]) => {
-                this.products = products;
-                this.productsEdited.next(this.products.slice());
+                console.log(products);
+                // this.products = products;
+                // this.productsEdited.next(this.products.slice());
             }
         );
     }

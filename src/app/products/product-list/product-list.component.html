@@ -5,7 +5,7 @@
                 <div class="pull-right">
                     <button [ngClass]="isFilterOpen ? 'active' : ''" (click)="isFilterOpen = !isFilterOpen" class="btn btn-default">Filters <i class="glyphicon glyphicon-filter"></i></button>
                     <button class="btn btn-primary" routerLink="new"><i class="glyphicon glyphicon-file"></i> Add Product</button>
-                    <button class="btn btn-primary-light"><i class="glyphicon glyphicon-option-horizontal"></i></button>
+                    <button class="btn btn-primary-light" (click)="loadProducts()"><i class="glyphicon glyphicon-refresh"></i></button>
                 </div>
             </div>
         </div>
@@ -19,6 +19,7 @@
                     <th *ngFor="let columnName of productColumns"
                         (click)="onSorted(columnName.name)"
                         [ngClass]="isOrderedBy(columnName.name)">{{ columnName.title }}</th>
+                    <th></th>
                     <th></th>
                     </thead>
                     <tbody>

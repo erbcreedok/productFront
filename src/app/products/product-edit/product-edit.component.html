@@ -1,88 +1,99 @@
 <div class="modal" role="dialog">
-  <div class="modal-dialog modal-sm">
+  <div class="modal-dialog modal-md">
 
-    <div class="modal-content">
+    <div class="modal-content" *ngIf="!editMode || !isLoading">
       <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
       <div class="modal-header">
-        <button type="button" class="close"  routerLink="../">&times;</button>
+        <button type="button" class="close" (click)="onCloseEdit()">&times;</button>
         <h4 class="modal-title">{{ editMode ? 'Edit Product' : 'New Product' }}</h4>
       </div>
       <div class="modal-body">
         <div class="row">
           <div class="col-xs-12">
-              <div class="row">
-                <div class="col-xs-12">
-                  <div class="form-group">
-                    <label>Code</label>
-                    <span class="small help-block pull-right" *ngIf="!editMode">leave empty for automatic value</span>
-                    <input class="form-control"
-                           type="text"
-                           placeholder="Enter Code"
-                           formControlName="productCode">
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="form-group">
+                  <label>Code</label>
+                  <span class="small help-block pull-right" *ngIf="!editMode">leave empty for automatic value</span>
+                  <input class="form-control"
+                         type="text"
+                         placeholder="Enter Code"
+                         formControlName="productCode">
+              </div>
+            </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="form-group">
+                  <label>Name</label>
+                  <input class="form-control"
+                         type="text"
+                         placeholder="Enter Name"
+                         formControlName="productName">
                 </div>
               </div>
-              </div>
-              <div class="row">
-                <div class="col-xs-12">
-                  <div class="form-group">
-                    <label>Name</label>
-                    <input class="form-control"
-                           type="text"
-                           placeholder="Enter Name"
-                           formControlName="productName">
-                  </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="form-group">
+                  <label>Code</label>
+                  <textarea class="form-control"
+                            rows="3"
+                            placeholder="Enter Description"
+                            formControlName="productDescription"></textarea>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-xs-12">
-                  <div class="form-group">
-                    <label>Code</label>
-                    <textarea class="form-control"
-                              rows="3"
-                              placeholder="Enter Description"
-                              formControlName="productDescription"></textarea>
-                  </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label>Cost in GBP</label>
+                  <input class="form-control"
+                         type="text"
+                         id="costInput"
+                         placeholder="Enter Cost"
+                         formControlName="cost">
                 </div>
               </div>
-              <div class="row">
-                <div class="col-xs-6">
-                  <div class="form-group">
-                    <label>Cost in GBP</label>
-                    <input class="form-control"
-                           type="text"
-                           placeholder="Enter Cost"
-                           formControlName="cost">
-                  </div>
-                </div>
-                <div class="col-xs-6">
-                  <div class="form-group">
-                    <label>Stock count</label>
-                    <input class="form-control"
-                           type="text"
-                           placeholder="Enter Stock"
-                           formControlName="stock">
-                  </div>
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label>Stock count</label>
+                  <input class="form-control"
+                         type="text"
+                         placeholder="Enter Stock"
+                         formControlName="stock">
                 </div>
               </div>
-              <div class="row">
-                <div class="col-xs-12">
-                  <div class="form-group">
-                    <br>
-                    <input type="checkbox"
-                           id="formEditDiscontinuedCheckbox"
-                           formControlName="isDiscontinued">
-                    <label for="formEditDiscontinuedCheckbox">is Discontinued</label>
-                  </div>
+            </div>
+            <div class="row" *ngIf="productForm.hasError('costStockValidation') && productForm.get('cost').touched && productForm.get('stock').touched">
+              <div class="col-xs-12">
+                <div class="alert alert-danger" role="alert">
+                  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                  Either <a class="alert-link">Cost</a> have to be greater than 5 or <a class="alert-link">Stock</a> have to be greater than 10
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="form-group">
+                  <br>
+                  <input type="checkbox"
+                         id="formEditDiscontinuedCheckbox"
+                         formControlName="isDiscontinued">
+                  <label for="formEditDiscontinuedCheckbox">is Discontinued</label>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" routerLink="../">Close</button>
+        <button type="button" class="btn btn-default" (click)="onCloseEdit()">Close</button>
         <button type="submit" class="btn btn-success" [disabled]="!productForm.valid">Save</button>
       </div>
       </form>
     </div>
+
+    <div class="loader-spinner" *ngIf="isLoading" style="margin: 100px auto"></div>
   </div>
 </div>

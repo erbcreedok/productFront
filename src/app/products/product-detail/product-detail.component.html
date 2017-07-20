@@ -1,0 +1,116 @@
+<div class="modal">
+    <div class="modal-dialog modal-md">
+
+        <div class="modal-content" *ngIf="product">
+            <div class="modal-header">
+                <button type="button" class="close" (click)="onCloseModal()">&times;</button>
+                <h4 class="modal-title">{{ product.productName }}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="row form-group">
+                            <div class="col-xs-4" style="text-align: right">
+                                <div class="row">
+                                    Code:
+                                </div>
+                            </div>
+                            <div class="col-xs-8">
+                                <strong>
+                                    {{ product.productCode }}
+                                </strong>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-4" style="text-align: right">
+                                <div class="row">
+                                    Description:
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <strong>
+                                    {{ product.productDescription }}
+                                </strong>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-4" style="text-align: right">
+                                <div class="row">
+                                    Cost:
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <strong>
+                                    {{ product.cost }}$
+                                </strong>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-4" style="text-align: right">
+                                <div class="row">
+                                    Stock:
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <strong>
+                                    {{ product.stock }}
+                                </strong>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-4" style="text-align: right">
+                                <div class="row">
+                                    Discontinued:
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <strong>
+                                    {{ product.discontinued ? (product.discontinued | date:'short') : 'Not Discontinued' }}
+                                </strong>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-4" style="text-align: right">
+                                <div class="row">
+                                    Added:
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <strong>
+                                    {{ product.dateAdded | date:'short' }}
+                                </strong>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-4" style="text-align: right">
+                                <div class="row">
+                                    Last update:
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <strong>
+                                    {{ product.timestamp | date:'short' }}
+                                </strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" (click)="onOpenEdit()"><i class="glyphicon glyphicon-edit"></i> Edit</button>
+                <button type="button" class="btn btn-primary" (click)="onCloseModal()">Done</button>
+            </div>
+        </div>
+        <div class="loader-spinner" *ngIf="isLoading" style="margin: 100px auto;"></div>
+        <div class="modal-content" *ngIf="!product && !isLoading">
+            <div class="modal-body" style="text-align: center">
+                <h3>
+                    Sorry...
+                </h3>
+                <p>
+                    There is no such product
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

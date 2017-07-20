@@ -1,5 +1,4 @@
 export class Product {
-
     private static _columns: {name: string, title: string, type: string}[] = [
         {name: 'productCode', title: 'Code', type: 'string'},
         {name: 'productName', title: 'Name', type: 'string'},
@@ -17,7 +16,9 @@ export class Product {
                 private _stock: number,
                 private _cost: number,
                 private _discontinued: Date,
-                private _dateAdded: Date) {}
+                private _dateAdded: Date,
+                private _timestamp: Date = null) {
+    }
 
     static get columns(): {name: string, title: string, type: string}[] {
         return this._columns.slice();
@@ -81,6 +82,10 @@ export class Product {
 
     get id(): number {
         return this._id;
+    }
+
+    get timestamp(): Date {
+        return this._timestamp;
     }
 
 }
