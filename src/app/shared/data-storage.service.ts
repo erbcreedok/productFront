@@ -13,9 +13,18 @@ export class DataStorageService {
 
     constructor(private http: Http, private errorHandleService: ErrorHandleService) { }
 
+    getProductsCount(filters: any = null) {
+        const url = this.backEndUrl + 'products/count';
+        return this.http.get(url, {search: {'filters': filters}}).map(
+            (response: Response): number => {
+                return response.json();
+            }
+        );
+    }
+
     getProducts(limit: any = null, order: any = null, filters: any = null) {
         const url = this.backEndUrl + 'products';
-        return this.http.get(url, {search: {'filter': filters, 'order': order, 'limit': limit}}).map(
+        return this.http.get(url, {search: {'filters': filters, 'order': order, 'limit': limit}}).map(
             (response: Response): Product[] => {
                 const products: Product[] = response.json();
                 for (const product of products) {
