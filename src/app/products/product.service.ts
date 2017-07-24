@@ -143,7 +143,7 @@ export class ProductService {
         if (this.isLoading()) {
             return;
         }
-        this.subscription = this.dataStorageService.getProducts(this.order, this.limit, this.filters).subscribe(
+        this.subscription = this.dataStorageService.getProducts(this.limit, this.order, this.filters).subscribe(
             (products: Product[]) => {
                 this.products = products;
                 this.productsEdited.next(this.products.slice());
