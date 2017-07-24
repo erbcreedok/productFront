@@ -47,6 +47,10 @@ export class ProductDetailComponent implements OnInit {
     }
   }
 
+  onDelete() {
+      this.productService.deleteProduct(this.id);
+  }
+
   onCloseModal() {
     this.router.navigate(['../'], {relativeTo: this.route});
   }

@@ -35,7 +35,7 @@
         <a [routerLink]="[product.id,'edit']"><i class="text-icon glyphicon glyphicon-edit"></i> Edit</a>
       </li>
       <li>
-        <a><i class="text-icon glyphicon glyphicon-remove"></i> Remove</a>
+        <a><i class="text-icon glyphicon glyphicon-remove" (click)="onDelete()"></i> Remove</a>
       </li>
     </ul>
   </span>

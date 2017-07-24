@@ -21,6 +21,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
   productSubscription: Subscription;
 
   isFilterOpen = false;
+  orderBy = '';
+  orderInverse = false;
 
 
   constructor( private productService: ProductService ) { }
@@ -40,15 +42,18 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   isOrderedBy(columnName: ProductColumn) {
-    return this.productService.order.sort === columnName.name ? 'active' + (this.productService.order.order ? ' ' : ' reverse') : '';
+    return this.orderBy === columnName.name ? 'active' + (this.orderInverse ? ' reverse' : '') : '';
   }
 
   onSorted(columnName: ProductColumn) {
-    if (this.productService.order.sort === columnName.name) {
+    if (this.productService.order.sort === columnName.property) {
       this.productService.order.order = !this.productService.order.order;
+      this.orderInverse = !this.productService.order.order;
     } else {
       this.productService.order.sort = columnName.property;
-      this.productService.order.order = false;
+      this.orderBy = columnName.name;
+      this.productService.order.order = true;
+      this.orderInverse = !this.productService.order.order;
     }
     this.productService.getProductsByOptions();
   }
