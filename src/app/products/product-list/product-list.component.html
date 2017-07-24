@@ -23,7 +23,7 @@
                     <th></th>
                     </thead>
                     <tbody>
-                    <app-product-item *ngFor="let product of products | orderBy:orderBy:orderInverse ; let i = index"
+                    <app-product-item *ngFor="let product of products; let i = index"
                                       [product]="product"
                                       [columns]="productColumns"
                                       [index]="i"></app-product-item>
