@@ -77,7 +77,7 @@ export class ProductService {
     subscription: Subscription;
 
     order: {sort: string, order: boolean} = {
-        sort: 'id',
+        sort: 'productCode',
         order: true
     };
 
