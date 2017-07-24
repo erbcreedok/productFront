@@ -85,6 +85,8 @@ export class ProductService {
         limit: 20
     };
 
+    filters = null;
+
     constructor(private dataStorageService: DataStorageService) {
         // this.loadProducts();
     }
@@ -134,7 +136,7 @@ export class ProductService {
         if (this.isLoading()) {
             return;
         }
-        this.subscription = this.dataStorageService.getProductsByOptions(this.order, this.limit, {}).subscribe(
+        this.subscription = this.dataStorageService.getProducts(this.order, this.limit, this.filters).subscribe(
             (products: Product[]) => {
                 this.products = products;
                 this.productsEdited.next(this.products.slice());
@@ -146,12 +148,8 @@ export class ProductService {
         if (this.isLoading()) {
             return;
         }
-        this.subscription = this.dataStorageService.getProductsByOptions(this.order, this.limit, filters).subscribe(
-            (products: Product[]) => {
-                this.products = products;
-                this.productsEdited.next(this.products.slice());
-            }
-        );
+        this.filters = filters;
+        this.getProductsByOptions();
     }
 
     addProduct(product: Product) {
@@ -172,7 +170,10 @@ export class ProductService {
         }
         this.subscription = this.dataStorageService.updateProduct(id, product).subscribe(
             (newProduct: Product) => {
-                this.products.unshift(newProduct);
+                const index = this.products.findIndex(x => x.id === id);
+                if (index != null) {
+                    this.products[index] = newProduct;
+                }
                 this.productsEdited.next(this.products.slice());
             }
         );
@@ -184,10 +185,9 @@ export class ProductService {
         }
         this.subscription = this.dataStorageService.deleteProduct(id).subscribe(
             (response) => {
-                console.log(response);
                 const index = this.products.findIndex(x => x.id === id);
-                if (index) {
-                    this.products.slice(index, 1);
+                if (index != null) {
+                    this.products.splice(index, 1);
                 }
                 this.productsEdited.next(this.products.slice());
             }
