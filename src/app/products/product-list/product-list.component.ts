@@ -41,10 +41,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
           (data) => {
               if (data['order']) {
                   this.productService.order = data['order'];
-                  this.orderBy = this.productColumns.find(x => x.property === data['order']).name;
-              } else {
-                  this.orderBy = this.productColumns.find(x => x.property === data['order']).name;
               }
+              this.orderBy = this.productColumns.find(x => x.property === this.productService.order.sort).name;
 
               if (data['page']) {
                   this.activePage = +data['page'];
