@@ -7,6 +7,7 @@ import {ProductDetailComponent} from './products/product-detail/product-detail.c
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/products', pathMatch: 'full'},
+  { path: 'products?page=1', redirectTo: 'products'},
   { path: 'products', component: ProductsComponent, children: [
     { path: 'new', component: ProductEditComponent },
     { path: ':id', component: ProductDetailComponent },

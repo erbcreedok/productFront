@@ -34,18 +34,14 @@
         <div class="row">
             <nav aria-label="Page navigation" style="text-align: center">
                 <ul class="pagination">
-                    <li>
-                        <a href="#" aria-label="Previous">
+                    <li *ngIf="activePage !== 1">
+                        <a style="cursor: pointer" (click)="goToPage(activePage - 1)" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li>
-                        <a href="#" aria-label="Next">
+                    <li *ngFor="let page of pages" [ngClass]="{active: page === activePage}"><a style="cursor:pointer;" (click)="goToPage(page)">{{ page }}</a></li>
+                    <li *ngIf="activePage !== lastPage">
+                        <a style="cursor: pointer" (click)="goToPage(activePage - 1)" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
