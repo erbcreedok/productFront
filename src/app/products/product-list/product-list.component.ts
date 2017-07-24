@@ -48,7 +48,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
                   this.activePage = +data['page'];
                   if (this.activePage < 1 || this.activePage > this.lastPage) {
                       this.router.navigate(['/not-found']);
-                  } else if (this.activePage === 1){
+                  } else if (this.activePage === 1) {
                       this.router.navigate(['/products']);
                   }
               } else {
@@ -64,6 +64,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
       this.productSubscription = this.productService.productsEdited.subscribe(
           (products: Product[]) => {
               this.products = products;
+              this.router.navigate(['/products']);
               this.lastPage = this.productService.getProductPagesCount();
               this.pages = this.getPages();
           }
