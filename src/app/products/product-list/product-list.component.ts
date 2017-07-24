@@ -59,7 +59,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
               this.lastPage = this.productService.getProductPagesCount();
               this.pages = this.getPages();
-              this.productService.limit.offset = this.activePage * this.productService.limit.limit;
+              this.productService.limit.offset = (this.activePage - 1) * this.productService.limit.limit;
 
               this.loadProducts();
           }
