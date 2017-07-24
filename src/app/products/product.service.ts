@@ -4,6 +4,7 @@ import {Product} from './product.model';
 import {DataStorageService} from '../shared/data-storage.service';
 import {Subject} from 'rxjs/Subject';
 import {Subscription} from 'rxjs/Subscription';
+import _ from 'lodash';
 
 @Injectable()
 export class ProductService {
@@ -75,23 +76,21 @@ export class ProductService {
 
     subscription: Subscription;
 
-    order = {
+    order: {sort: string, order: boolean} = {
         sort: 'id',
         order: true
     };
 
-    limit = {
+    limit: {offset: number, limit: number} = {
         offset: 0,
         limit: 20
     };
 
     filters = null;
 
-    productCount: number = null;
+    productCount = 1;
 
-    constructor(private dataStorageService: DataStorageService) {
-        this.loadProducts();
-    }
+    constructor(private dataStorageService: DataStorageService) {}
 
     isLoading() {
         console.log(this.subscription);
@@ -103,15 +102,11 @@ export class ProductService {
         if (this.isLoading()) {
             return;
         }
-        this.subscription = this.dataStorageService.getProducts().subscribe(
-            (products: Product[]) => {
-                this.products = products;
+        this.subscription = this.dataStorageService.getProducts(this.limit, this.order, this.filters).subscribe(
+            (data: {products: Product[], count: number}) => {
+                this.products = data.products;
+                this.productCount = data.count;
                 this.productsEdited.next(this.products.slice());
-            }
-        );
-        this.subscription = this.dataStorageService.getProductsCount().subscribe(
-            (count: number) => {
-                this.productCount = count;
             }
         );
     }
@@ -139,24 +134,12 @@ export class ProductService {
         return this.products.find( (product: Product) => product.id === id);
     }
 
-    getProductsByOptions() {
-        if (this.isLoading()) {
-            return;
-        }
-        this.subscription = this.dataStorageService.getProducts(this.limit, this.order, this.filters).subscribe(
-            (products: Product[]) => {
-                this.products = products;
-                this.productsEdited.next(this.products.slice());
-            }
-        );
-    }
-
     getProductsByFilters(filters: any) {
         if (this.isLoading()) {
             return;
         }
         this.filters = filters;
-        this.getProductsByOptions();
+        this.loadProducts();
     }
 
     addProduct(product: Product) {
@@ -200,4 +183,9 @@ export class ProductService {
             }
         );
     }
+
+    getProductPagesCount(): number {
+        return Math.ceil(this.productCount / this.limit.limit);
+    }
+
 }

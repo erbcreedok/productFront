@@ -25,12 +25,14 @@ export class DataStorageService {
     getProducts(limit: any = null, order: any = null, filters: any = null) {
         const url = this.backEndUrl + 'products';
         return this.http.get(url, {search: {'filters': filters, 'order': order, 'limit': limit}}).map(
-            (response: Response): Product[] => {
-                const products: Product[] = response.json();
+            (response: Response): {products: Product[], count: number} => {
+                const data = response.json();
+                const products: Product[] = data['products'];
+                const count: number = data['count'];
                 for (const product of products) {
                     this.prepareProduct(product);
                 }
-                return products;
+                return {products: products, count: count};
             }
         ).catch(
             (error: Response) => {
@@ -117,28 +119,6 @@ export class DataStorageService {
                 return response.json();
             }
         ).catch (
-            (error: Response) => {
-                this.errorHandleService.addError(new ErrorMessage(
-                    'Connection Failed',
-                    'Oops... Looks like "' + url + '" is unreachable...',
-                    error
-                ));
-                return Observable.throw(error);
-            }
-        );
-    }
-    getProductsByOptions(order: any, limit: any, filters: any) {
-        const url = this.backEndUrl + 'products/get/?';
-        return this.http.get(url, {search: {'order': order, 'limit': limit, 'filters': filters}}).map(
-        // return this.http.post(url, {order: order, limit: limit, filters: filters}).map(
-            (response: Response): Product[] => {
-                const products: Product[] = response.json();
-                for (const product of products) {
-                    this.prepareProduct(product);
-                }
-                return products;
-            }
-        ).catch(
             (error: Response) => {
                 this.errorHandleService.addError(new ErrorMessage(
                     'Connection Failed',
