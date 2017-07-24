@@ -11,6 +11,7 @@ export class ErrorHandleService {
 
   addError(error: ErrorMessage) {
     this.errors.push(error);
+    console.log(this.errors);
     this.onErrorAdded.emit(error);
   }
 

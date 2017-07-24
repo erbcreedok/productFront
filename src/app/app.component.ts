@@ -8,23 +8,12 @@ import {Subscription} from 'rxjs/Subscription';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, OnDestroy{
+export class AppComponent implements OnInit {
   title = 'app';
-  errorSubscription: Subscription;
-  errorMessage: ErrorMessage;
 
-  constructor(private errorHandleService: ErrorHandleService) {}
+  constructor() {}
 
   ngOnInit() {
-    this.errorSubscription = this.errorHandleService.onErrorAdded.subscribe(
-        (error: ErrorMessage) => {
-          this.errorMessage = error;
-          setTimeout(() => { this.errorMessage = null }, 5000);
-        }
-    );
   }
 
-  ngOnDestroy() {
-    this.errorSubscription.unsubscribe();
-  }
 }

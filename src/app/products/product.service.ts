@@ -3,6 +3,7 @@ import 'rxjs/Rx';
 import {Product} from './product.model';
 import {DataStorageService} from '../shared/data-storage.service';
 import {Subject} from 'rxjs/Subject';
+import {Subscription} from 'rxjs/Subscription';
 
 @Injectable()
 export class ProductService {
@@ -72,22 +73,33 @@ export class ProductService {
     productsEdited = new Subject<Product[]> ();
     productLoaded = new Subject<Product>();
 
+    subscription: Subscription;
+
     order = {
         sort: 'id',
         order: true
-    }
+    };
 
     limit = {
         offset: 0,
         limit: 20
-    }
+    };
 
     constructor(private dataStorageService: DataStorageService) {
         // this.loadProducts();
     }
 
+    isLoading() {
+        console.log(this.subscription);
+        console.log(this.subscription && !this.subscription.closed);
+        return (this.subscription && !this.subscription.closed);
+    }
+
     loadProducts() {
-        this.dataStorageService.getProducts().subscribe(
+        if (this.isLoading()) {
+            return;
+        }
+        this.subscription = this.dataStorageService.getProducts().subscribe(
             (products: Product[]) => {
                 this.products = products;
                 this.productsEdited.next(this.products.slice());
@@ -96,7 +108,10 @@ export class ProductService {
     }
 
     loadProduct(id: number) {
-        this.dataStorageService.getProduct(id).subscribe(
+        if (this.isLoading()) {
+            return;
+        }
+        this.subscription = this.dataStorageService.getProduct(id).subscribe(
             (product: Product) => {
                 this.productLoaded.next(product);
             }
@@ -116,7 +131,10 @@ export class ProductService {
     }
 
     getProductsByOptions() {
-        this.dataStorageService.getProductsByOptions(this.order, this.limit, {}).subscribe(
+        if (this.isLoading()) {
+            return;
+        }
+        this.subscription = this.dataStorageService.getProductsByOptions(this.order, this.limit, {}).subscribe(
             (products: Product[]) => {
                 this.products = products;
                 this.productsEdited.next(this.products.slice());
@@ -125,7 +143,10 @@ export class ProductService {
     }
 
     getProductsByFilters(filters: any) {
-        this.dataStorageService.getProductsByOptions(this.order, this.limit, filters).subscribe(
+        if (this.isLoading()) {
+            return;
+        }
+        this.subscription = this.dataStorageService.getProductsByOptions(this.order, this.limit, filters).subscribe(
             (products: Product[]) => {
                 this.products = products;
                 this.productsEdited.next(this.products.slice());
@@ -134,20 +155,42 @@ export class ProductService {
     }
 
     addProduct(product: Product) {
-        this.dataStorageService.addProducts(product).subscribe(
+        if (this.isLoading()) {
+            return;
+        }
+        this.subscription = this.dataStorageService.addProducts(product).subscribe(
             (newProduct: Product) => {
-                console.log(newProduct);
+                this.products.unshift(newProduct);
+                this.productsEdited.next(this.products.slice());
             }
         );
-        this.productsEdited.next(this.products.slice());
     }
 
     updateProduct(id: number, product: Product) {
-        this.dataStorageService.updateProduct(id, product).subscribe(
+        if (this.isLoading()) {
+            return;
+        }
+        this.subscription = this.dataStorageService.updateProduct(id, product).subscribe(
             (newProduct: Product) => {
-                console.log(newProduct);
+                this.products.unshift(newProduct);
+                this.productsEdited.next(this.products.slice());
             }
         );
-        this.productsEdited.next(this.products.slice());
+    }
+
+    deleteProduct(id: number) {
+        if (this.isLoading()) {
+            return;
+        }
+        this.subscription = this.dataStorageService.deleteProduct(id).subscribe(
+            (response) => {
+                console.log(response);
+                const index = this.products.findIndex(x => x.id === id);
+                if (index) {
+                    this.products.slice(index, 1);
+                }
+                this.productsEdited.next(this.products.slice());
+            }
+        );
     }
 }

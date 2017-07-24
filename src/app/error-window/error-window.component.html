@@ -1,8 +1,13 @@
-<div class="error-window-container">
-  <div class="panel panel-danger">
-    <div class="panel-heading">{{ message.header }}</div>
-    <div class="panel-body">
-      {{ message.body }}
+<div *ngIf="errorMessage">
+  <div class="error-window-container container-fluid">
+    <div class="row">
+      <div class="alert alert-danger" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <strong>{{ errorMessage.header }}:</strong>
+        {{ errorMessage.body }}
+        <span style="cursor: pointer;" class="pull-right" (click)="onCloseWindow()">&times;</span>
+      </div>
     </div>
   </div>
+  <div class="press-down"></div>
 </div>

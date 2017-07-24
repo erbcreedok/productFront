@@ -1,9 +1,10 @@
-import {Injectable} from '@angular/core';
+import {Injectable, EventEmitter} from '@angular/core';
 import {Http, Response } from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Product} from '../products/product.model';
 import {ErrorHandleService} from './error-handle.service';
 import {ErrorMessage} from './error-message.model';
+import preventExtensions = Reflect.preventExtensions;
 
 @Injectable()
 export class DataStorageService {
@@ -12,9 +13,9 @@ export class DataStorageService {
 
     constructor(private http: Http, private errorHandleService: ErrorHandleService) { }
 
-    getProducts() {
+    getProducts(limit: any = null, order: any = null, filters: any = null) {
         const url = this.backEndUrl + 'products';
-        return this.http.get(url).map(
+        return this.http.get(url, {search: {'filter': filters, 'order': order, 'limit': limit}}).map(
             (response: Response): Product[] => {
                 const products: Product[] = response.json();
                 for (const product of products) {
@@ -53,28 +54,74 @@ export class DataStorageService {
                 ));
                 return Observable.throw(error);
             }
-        )
+        );
     }
 
     addProducts(product: Product) {
-        return this.http.post('http://127.0.0.1:8000/products/?', {'product': product}).map(
+        const url = this.backEndUrl + 'products/?';
+        return this.http.post(url, {'product': product}).map(
             (response: Response): Product => {
-                return response.json();
+                const data = response.json();
+                if (data) {
+                    this.prepareProduct(data);
+                }
+                return product;
+            }
+        ).catch (
+            (error: Response) => {
+                this.errorHandleService.addError(new ErrorMessage(
+                    'Connection Failed',
+                    'Oops... Looks like "' + url + '" is unreachable...',
+                    error
+                ));
+                return Observable.throw(error);
             }
         );
     }
 
     updateProduct(id: number, product: Product) {
-        return this.http.put('http://127.0.0.1:8000/products/?', {id: id, product: product}).map(
+        const url = this.backEndUrl + 'products/?';
+        return this.http.put(url, {id: id, product: product}).map(
             (response: Response): Product => {
-                return response.json();
+                const data = response.json();
+                if (data) {
+                    this.prepareProduct(data);
+                }
+                return data;
+            }
+        ).catch (
+            (error: Response) => {
+                this.errorHandleService.addError(new ErrorMessage(
+                    'Connection Failed',
+                    'Oops... Looks like "' + url + '" is unreachable...',
+                    error
+                ));
+                return Observable.throw(error);
             }
         );
     }
 
+    deleteProduct(id: number) {
+        const url = this.backEndUrl + 'products/?';
+        return this.http.put(url, {id: id}).map(
+            (response: Response) => {
+                return response.json();
+            }
+        ).catch (
+            (error: Response) => {
+                this.errorHandleService.addError(new ErrorMessage(
+                    'Connection Failed',
+                    'Oops... Looks like "' + url + '" is unreachable...',
+                    error
+                ));
+                return Observable.throw(error);
+            }
+        );
+    }
     getProductsByOptions(order: any, limit: any, filters: any) {
         const url = this.backEndUrl + 'products/get/?';
-        return this.http.post(url, {order: order, limit: limit, filters: filters}).map(
+        return this.http.get(url, {search: {'order': order, 'limit': limit, 'filters': filters}}).map(
+        // return this.http.post(url, {order: order, limit: limit, filters: filters}).map(
             (response: Response): Product[] => {
                 const products: Product[] = response.json();
                 for (const product of products) {

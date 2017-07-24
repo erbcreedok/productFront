@@ -22,72 +22,72 @@
                             </div>
                         </div>
                         <div class="row form-group">
-                            <div class="col-md-4" style="text-align: right">
+                            <div class="col-xs-4" style="text-align: right">
                                 <div class="row">
                                     Description:
                                 </div>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-xs-8">
                                 <strong>
                                     {{ product.productDescription }}
                                 </strong>
                             </div>
                         </div>
                         <div class="row form-group">
-                            <div class="col-md-4" style="text-align: right">
+                            <div class="col-xs-4" style="text-align: right">
                                 <div class="row">
                                     Cost:
                                 </div>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-xs-8">
                                 <strong>
                                     {{ product.cost }}$
                                 </strong>
                             </div>
                         </div>
                         <div class="row form-group">
-                            <div class="col-md-4" style="text-align: right">
+                            <div class="col-xs-4" style="text-align: right">
                                 <div class="row">
                                     Stock:
                                 </div>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-xs-8">
                                 <strong>
                                     {{ product.stock }}
                                 </strong>
                             </div>
                         </div>
                         <div class="row form-group">
-                            <div class="col-md-4" style="text-align: right">
+                            <div class="col-xs-4" style="text-align: right">
                                 <div class="row">
                                     Discontinued:
                                 </div>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-xs-8">
                                 <strong>
                                     {{ product.discontinued ? (product.discontinued | date:'short') : 'Not Discontinued' }}
                                 </strong>
                             </div>
                         </div>
                         <div class="row form-group">
-                            <div class="col-md-4" style="text-align: right">
+                            <div class="col-xs-4" style="text-align: right">
                                 <div class="row">
                                     Added:
                                 </div>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-xs-8">
                                 <strong>
                                     {{ product.dateAdded | date:'short' }}
                                 </strong>
                             </div>
                         </div>
                         <div class="row form-group">
-                            <div class="col-md-4" style="text-align: right">
+                            <div class="col-xs-4" style="text-align: right">
                                 <div class="row">
                                     Last update:
                                 </div>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-xs-8">
                                 <strong>
                                     {{ product.timestamp | date:'short' }}
                                 </strong>
@@ -98,6 +98,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" (click)="onOpenEdit()"><i class="glyphicon glyphicon-edit"></i> Edit</button>
+                <button type="button" class="btn btn-default pull-left" (click)="onDelete()"><i class="glyphicon glyphicon-trash"></i> Delete</button>
                 <button type="button" class="btn btn-primary" (click)="onCloseModal()">Done</button>
             </div>
         </div>
