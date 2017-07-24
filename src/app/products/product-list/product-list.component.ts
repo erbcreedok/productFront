@@ -64,9 +64,12 @@ export class ProductListComponent implements OnInit, OnDestroy {
       this.productSubscription = this.productService.productsEdited.subscribe(
           (products: Product[]) => {
               this.products = products;
-              this.router.navigate(['/products']);
               this.lastPage = this.productService.getProductPagesCount();
+              if (this.activePage > this.lastPage) {
+                  this.activePage = this.lastPage;
+              }
               this.pages = this.getPages();
+
           }
       );
   }
