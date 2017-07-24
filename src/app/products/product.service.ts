@@ -87,8 +87,10 @@ export class ProductService {
 
     filters = null;
 
+    productCount: number = null;
+
     constructor(private dataStorageService: DataStorageService) {
-        // this.loadProducts();
+        this.loadProducts();
     }
 
     isLoading() {
@@ -105,6 +107,11 @@ export class ProductService {
             (products: Product[]) => {
                 this.products = products;
                 this.productsEdited.next(this.products.slice());
+            }
+        );
+        this.subscription = this.dataStorageService.getProductsCount().subscribe(
+            (count: number) => {
+                this.productCount = count;
             }
         );
     }
