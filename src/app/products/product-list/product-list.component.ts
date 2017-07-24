@@ -66,7 +66,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
               this.products = products;
               this.lastPage = this.productService.getProductPagesCount();
               if (this.activePage > this.lastPage) {
-                  this.activePage = this.lastPage;
+                  this.router.navigate(['/products'], {queryParams: {page: this.lastPage}});
               }
               this.pages = this.getPages();
 
