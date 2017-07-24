@@ -80,8 +80,8 @@ export class DataStorageService {
     }
 
     updateProduct(id: number, product: Product) {
-        const url = this.backEndUrl + 'products/?';
-        return this.http.put(url, {id: id, product: product}).map(
+        const url = this.backEndUrl + 'products/' + id;
+        return this.http.put(url, {product: product}).map(
             (response: Response): Product => {
                 const data = response.json();
                 if (data) {
@@ -102,8 +102,8 @@ export class DataStorageService {
     }
 
     deleteProduct(id: number) {
-        const url = this.backEndUrl + 'products/?';
-        return this.http.put(url, {id: id}).map(
+        const url = this.backEndUrl + 'products/' + id;
+        return this.http.delete(url).map(
             (response: Response) => {
                 return response.json();
             }

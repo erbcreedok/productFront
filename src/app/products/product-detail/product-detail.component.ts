@@ -49,6 +49,7 @@ export class ProductDetailComponent implements OnInit {
 
   onDelete() {
       this.productService.deleteProduct(this.id);
+      this.onCloseModal();
   }
 
   onCloseModal() {
