@@ -14,7 +14,7 @@ export class DataStorageService {
     constructor(private http: Http, private errorHandleService: ErrorHandleService) { }
 
     getProductsCount(filters: any = null) {
-        const url = this.backEndUrl + 'products/count';
+        const url = this.backEndUrl + 'products/count/';
         return this.http.get(url, {search: {'filters': filters}}).map(
             (response: Response): number => {
                 return response.json();
