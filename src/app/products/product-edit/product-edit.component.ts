@@ -65,7 +65,7 @@ export class ProductEditComponent implements OnInit {
       }
     }
     this.productForm = new FormGroup({
-      'productCode': new FormControl(productCode, [Validators.pattern(/^\w*$/)]),
+      'productCode': new FormControl(productCode, [Validators.required, Validators.pattern(/^\w*$/)]),
       'productName': new FormControl(productName, Validators.required),
       'productDescription': new FormControl(productDescription, Validators.required),
       'cost': new FormControl(cost, [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]),
