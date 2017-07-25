@@ -11,7 +11,7 @@
         </div>
         <div class="row">
             <div class="col-xs-12">
-                <table>
+                <table [ngClass]="{disabled: isBusy()}">
                     <thead>
                     <th>
                         <input type="checkbox" class="table-checkbox">
@@ -28,20 +28,21 @@
                                       [columns]="productColumns"
                                       [index]="i"></app-product-item>
                     </tbody>
+                    <div class="loader-spinner" *ngIf="isBusy()"></div>
                 </table>
             </div>
         </div>
         <div class="row">
             <nav aria-label="Page navigation" style="text-align: center">
                 <ul class="pagination">
-                    <li *ngIf="activePage !== 1">
+                    <li [ngClass]="{disabled: activePage === 1}">
                         <a style="cursor: pointer" (click)="goToPage(activePage - 1)" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
                     <li *ngFor="let page of pages" [ngClass]="{active: page === activePage}"><a style="cursor:pointer;" (click)="goToPage(page)">{{ page }}</a></li>
-                    <li *ngIf="activePage !== lastPage">
-                        <a style="cursor: pointer" (click)="goToPage(activePage - 1)" aria-label="Next">
+                    <li [ngClass]="{disabled: activePage === lastPage}">
+                        <a style="cursor: pointer" (click)="goToPage(activePage + 1)" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>

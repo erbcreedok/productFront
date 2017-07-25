@@ -12,6 +12,33 @@ table{
     -webkit-border-radius:5px;
     -moz-border-radius:5px;
     border-radius:5px;
+    position: relative;
+}
+table.disabled{
+    cursor: progress;
+}
+table.disabled:after{
+    content: '';
+    display: block;
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom: 0;
+    background: rgba(148, 162, 173, 0.67);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    z-index:10;
+}
+table .loader-spinner {
+    position: absolute;
+    z-index:11;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
 }
 .table-container {
     -webkit-transition:  250ms;

@@ -4,6 +4,7 @@ import {Product} from '../product.model';
 import {Subscription} from 'rxjs/Subscription';
 import _ from 'lodash';
 import {ActivatedRoute, Router} from '@angular/router';
+import {isNumber} from "util";
 
 interface ProductColumn {
     name: string,
@@ -46,10 +47,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
               if (data['page']) {
                   this.activePage = +data['page'];
-                  if (this.activePage < 1 || this.activePage > this.lastPage) {
-                      this.router.navigate(['/not-found']);
-                  } else if (this.activePage === 1) {
-                      this.router.navigate(['/products']);
+                  if (this.activePage <= 1) {
+                      this.goToPage(1);
+                  } else if (this.activePage > this.lastPage) {
+                      this.goToPage(this.lastPage);
                   }
               } else {
                   this.activePage = 1;
@@ -100,7 +101,13 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
 
   goToPage(page: number) {
-      this.router.navigate(['/products'], {relativeTo: this.route, queryParams: {page: page}});
+      if (page < 1 || page > this.lastPage) {
+          return;
+      }
+      if (page === 1) {
+          this.router.navigate(['/products']);
+      }
+      this.router.navigate(['/products'], {queryParams: {page: page}});
   }
   getPages() {
       const pageLimits = 5;
@@ -121,5 +128,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
           }
       }
       return _.range(startPage, endPage + 1);
+  }
+
+  isBusy(): boolean {
+      return this.productService.isLoading();
   }
 }
