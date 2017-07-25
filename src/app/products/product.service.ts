@@ -93,8 +93,6 @@ export class ProductService {
     constructor(private dataStorageService: DataStorageService) {}
 
     isLoading() {
-        console.log(this.subscription);
-        console.log(this.subscription && !this.subscription.closed);
         return (this.subscription && !this.subscription.closed);
     }
 
