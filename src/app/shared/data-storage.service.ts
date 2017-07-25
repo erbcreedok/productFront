@@ -136,4 +136,20 @@ export class DataStorageService {
         return product;
     }
 
+    isProductCodeFree(productCode: string) {
+        const url = this.backEndUrl + 'products/isProductCodeFree/';
+        return this.http.get(url, {search: {productCode: productCode}}).map(
+            (response: Response): number => response.json()
+        ).catch (
+            (error: Response) => {
+                this.errorHandleService.addError(new ErrorMessage(
+                    'Connection Failed',
+                    'Oops... Looks like "' + url + '" is unreachable...',
+                    error
+                ));
+                return Observable.throw(error);
+            }
+        );
+    }
+
 }
