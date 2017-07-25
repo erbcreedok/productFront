@@ -186,4 +186,7 @@ export class ProductService {
         return Math.ceil(this.productCount / this.limit.limit);
     }
 
+    isProductCodeFree(productCode: string) {
+        return this.dataStorageService.isProductCodeFree(productCode);
+    }
 }

@@ -3,6 +3,7 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProductService} from '../product.service';
 import {Product} from '../product.model';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-product-edit',
@@ -65,7 +66,9 @@ export class ProductEditComponent implements OnInit {
       }
     }
     this.productForm = new FormGroup({
-      'productCode': new FormControl(productCode, [Validators.required, Validators.pattern(/^\w*$/)]),
+      'productCode': new FormControl(productCode,
+          [Validators.required, Validators.pattern(/^\w*$/)],
+          [this.productCodeValidator.bind(this)]),
       'productName': new FormControl(productName, Validators.required),
       'productDescription': new FormControl(productDescription, Validators.required),
       'cost': new FormControl(cost, [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]),
@@ -111,6 +114,21 @@ export class ProductEditComponent implements OnInit {
       return {'costStockValidation': true};
     }
     return null
+  }
+
+  productCodeValidator(control: FormControl): Promise<any> | Observable<any> {
+    const promise = new Promise<any> ((resolve, reject) => {
+      this.productService.isProductCodeFree(control.value).subscribe(
+          (data: number) => {
+            if (data !== this.id && data !== -1) {
+              resolve({'ProductCodeIsTaken': true});
+            } else {
+              resolve(null);
+            }
+          }
+      );
+    });
+    return promise;
   }
 
 
