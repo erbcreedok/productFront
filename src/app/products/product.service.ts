@@ -97,9 +97,6 @@ export class ProductService {
     }
 
     loadProducts() {
-        if (this.isLoading()) {
-            return;
-        }
         this.subscription = this.dataStorageService.getProducts(this.limit, this.order, this.filters).subscribe(
             (data: {products: Product[], count: number}) => {
                 this.products = data.products;
@@ -110,9 +107,6 @@ export class ProductService {
     }
 
     loadProduct(id: number) {
-        if (this.isLoading()) {
-            return;
-        }
         this.subscription = this.dataStorageService.getProduct(id).subscribe(
             (product: Product) => {
                 this.productLoaded.next(product);
@@ -133,17 +127,11 @@ export class ProductService {
     }
 
     getProductsByFilters(filters: any) {
-        if (this.isLoading()) {
-            return;
-        }
         this.filters = filters;
         this.loadProducts();
     }
 
     addProduct(product: Product) {
-        if (this.isLoading()) {
-            return;
-        }
         this.subscription = this.dataStorageService.addProducts(product).subscribe(
             (newProduct: Product) => {
                 this.products.unshift(newProduct);
@@ -153,9 +141,6 @@ export class ProductService {
     }
 
     updateProduct(id: number, product: Product) {
-        if (this.isLoading()) {
-            return;
-        }
         this.subscription = this.dataStorageService.updateProduct(id, product).subscribe(
             (newProduct: Product) => {
                 const index = this.products.findIndex(x => x.id === id);
@@ -168,9 +153,6 @@ export class ProductService {
     }
 
     deleteProduct(id: number) {
-        if (this.isLoading()) {
-            return;
-        }
         this.subscription = this.dataStorageService.deleteProduct(id).subscribe(
             (response) => {
                 const index = this.products.findIndex(x => x.id === id);

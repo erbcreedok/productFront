@@ -103,7 +103,7 @@ export class ProductEditComponent implements OnInit {
 
   onCloseEdit() {
     if (this.editMode) {
-      this.router.navigate(['../../'], {relativeTo: this.route});
+      this.router.navigate(['../../'], {relativeTo: this.route, queryParamsHandling: 'merge'});
     } else {
       this.router.navigate(['../'], {relativeTo: this.route});
     }
