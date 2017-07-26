@@ -9,7 +9,7 @@ import {Subscription} from 'rxjs/Subscription';
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.css']
 })
-export class ProductDetailComponent implements OnInit {
+export class ProductDetailComponent implements OnInit, OnDestroy {
   product: Product;
   id: number;
   productSubscription: Subscription;
@@ -27,6 +27,15 @@ export class ProductDetailComponent implements OnInit {
           this.loadProduct();
         }
     );
+    this.productSubscription = this.productService.productLoaded.subscribe(
+      (product: Product) => {
+          this.product = product;
+          this.isLoading = false;
+          if (!this.product) {
+              setTimeout(() => { this.onCloseModal() }, 3000);
+          }
+      }
+    );
   }
 
   loadProduct() {
@@ -34,16 +43,6 @@ export class ProductDetailComponent implements OnInit {
     if (!this.product) {
       this.isLoading = true;
       this.productService.loadProduct(this.id);
-      this.productSubscription = this.productService.productLoaded.subscribe(
-          (product: Product) => {
-            this.product = product;
-            this.productSubscription.unsubscribe();
-            this.isLoading = false;
-            if (!this.product) {
-              setTimeout(() => { this.onCloseModal() }, 3000);
-            }
-          }
-      );
     }
   }
 
@@ -53,12 +52,15 @@ export class ProductDetailComponent implements OnInit {
   }
 
   onCloseModal() {
-    this.router.navigate(['../'], {relativeTo: this.route});
+    this.router.navigate(['../'], {relativeTo: this.route, queryParamsHandling: 'merge'});
   }
 
   onOpenEdit() {
-    this.router.navigate(['edit'], {relativeTo: this.route});
+    this.router.navigate(['edit'], {relativeTo: this.route, queryParamsHandling: 'merge'});
   }
 
+  ngOnDestroy() {
+      this.productSubscription.unsubscribe();
+  }
 
 }

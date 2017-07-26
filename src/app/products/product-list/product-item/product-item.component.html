@@ -24,7 +24,7 @@
 <!--</td>-->
 <td>
   <span style="cursor: pointer; margin-right: 10px; display: inline-block">
-    <a [routerLink]="[product.id]"><i class="glyphicon glyphicon-eye-open"></i></a>
+    <a [routerLink]="[product.id]" queryParamsHandling="merge"><i class="glyphicon glyphicon-eye-open"></i></a>
   </span>
 </td>
 <td>
@@ -32,10 +32,10 @@
     <i class="glyphicon glyphicon-option-horizontal"></i>
     <ul class="dropdown-menu" style="right: -100%; left: auto;">
       <li>
-        <a [routerLink]="[product.id,'edit']"><i class="text-icon glyphicon glyphicon-edit"></i> Edit</a>
+        <a [routerLink]="[product.id,'edit']" queryParamsHandling="merge"><i class="text-icon glyphicon glyphicon-edit"></i> Edit</a>
       </li>
-      <li>
-        <a><i class="text-icon glyphicon glyphicon-remove" (click)="onDelete()"></i> Remove</a>
+      <li (click)="onDelete()">
+        <a><i class="text-icon glyphicon glyphicon-remove"></i> Remove</a>
       </li>
     </ul>
   </span>

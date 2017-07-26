@@ -23,7 +23,7 @@ export class ProductItemComponent implements OnInit {
 
   onOpenDetail() {
     console.log('go');
-    this.router.navigate([this.product.id], {relativeTo: this.route});
+    this.router.navigate([this.product.id], {relativeTo: this.route, queryParamsHandling: 'merge'});
   }
 
   onDelete() {
