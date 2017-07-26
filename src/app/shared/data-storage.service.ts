@@ -76,7 +76,7 @@ export class DataStorageService {
                 if (data) {
                     this.prepareProduct(data);
                 }
-                return product;
+                return data;
             }
         ).catch (
             (error: Response) => {
